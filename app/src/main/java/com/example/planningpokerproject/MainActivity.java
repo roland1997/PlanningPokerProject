@@ -15,16 +15,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_register, new RegisterFragment());
+        fragmentTransaction.add(R.id.fragment_container, new LoginFragment());
         fragmentTransaction.commit();
 
-        Button registerButton = (Button)findViewById(R.id.registerButton);
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
     }
 }
