@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -49,12 +50,13 @@ public class LoginFragment extends Fragment {
         lLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                username = lUserName.getText().toString();
+                password = lPassword.getText().toString();
+
                 userCheck(username);
 
             }
         });
-
-
 
 
         return view;
@@ -63,31 +65,26 @@ public class LoginFragment extends Fragment {
     private void userCheck(final String username){
         // Read from the database
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Users").child(username);
+        myRef = database.getReference("Admins").child(username).child("Password");
 
-        myRef.child("Password").addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                String kod = dataSnapshot.getValue().toString().replace("{","");
-              String kod2 = kod.replace("=","");
-              String kod3 = kod2.replace("}","");
-              String kod5 = kod3.replace("Password","");
+                String kod = dataSnapshot.getValue().toString();
 
 
-
-
-                Log.d("barack",kod5);
-
-
-
-
-                if(kod5.equals(password)){
+                if(!kod.equals(password)){
+                    Toast.makeText(getContext(),"Password or Username is incorrect", Toast.LENGTH_SHORT).show();
+                }
+                else{
                     Log.d("alma",password);
                     FragmentTransaction fr=getFragmentManager().beginTransaction();
-                    fr.replace(R.id.fragment_container,new RegisterFragment());
+                    fr.replace(R.id.fragment_container,new CreateRoomFragment());
                     fr.commit();
                 }
+
+
             }
 
             @Override
@@ -106,11 +103,6 @@ public class LoginFragment extends Fragment {
         lUserName = view.findViewById(R.id.lLoginName);
         lPassword = view.findViewById(R.id.lLoginPassword);
 
-        //lUserName.getText().toString();
-        //lPassword.getText().toString();
-
-        username = lUserName.getText().toString();
-        password = lPassword.getText().toString();
 
     }
 }

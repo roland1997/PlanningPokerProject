@@ -38,10 +38,15 @@ public class RegisterFragment extends Fragment {
         rRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                username = rUserName.getText().toString();
+                password = rPassword.getText().toString();
+
+                registerToDatabase();
+
                 FragmentTransaction fr=getFragmentManager().beginTransaction();
                 fr.replace(R.id.fragment_container,new LoginFragment());
                 fr.commit();
-                registerToDatabase();
+
             }
         });
 
@@ -50,24 +55,20 @@ public class RegisterFragment extends Fragment {
     }
     
     private void registerToDatabase(){
-        database = FirebaseDatabase.getInstance();
+        
+        myRef = FirebaseDatabase.getInstance().getReference();
+        myRef.child("Admins").child(username).child("Password").setValue(password);
 
-
-
-        myRef = database.getReference("Users").child(username);
-        Log.d("asd","megy");
-        myRef.child("Password").setValue(password);
     }
 
     private void initialization (View view){
         rRegisterButton = view.findViewById(R.id.rRegisterButton);
         rUserName = view.findViewById(R.id.rRegisterName);
         rPassword = view.findViewById(R.id.rRegisterPassword);
-        rUserName.getText().toString();
-        rPassword.getText().toString();
 
-        username = rUserName.getText().toString();
-        password = rPassword.getText().toString();
+
+
+
 
     }
 }
