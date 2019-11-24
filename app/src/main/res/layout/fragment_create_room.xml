@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editText9"
+            android:id="@+id/roomID"
             android:layout_width="185dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -33,7 +33,7 @@
             app:layout_constraintTop_toBottomOf="@+id/loginTextView" />
 
         <EditText
-            android:id="@+id/editText10"
+            android:id="@+id/roomPassword"
             android:layout_width="185dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -46,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@+id/loginTextView" />
 
         <EditText
-            android:id="@+id/editText11"
+            android:id="@+id/roomQuestion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -59,17 +59,17 @@
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText9" />
+            app:layout_constraintTop_toBottomOf="@+id/roomID" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/buttonRoomCreate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/roomCreate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText11" />
+            app:layout_constraintTop_toBottomOf="@+id/roomQuestion" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

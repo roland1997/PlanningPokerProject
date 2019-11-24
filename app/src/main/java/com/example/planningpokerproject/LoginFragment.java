@@ -1,5 +1,8 @@
 package com.example.planningpokerproject;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +33,11 @@ public class LoginFragment extends Fragment {
     private DatabaseReference myRef;
     private String username,password;
 
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String sUsername = "userNameKey";
+    public static final String sPassword = "paswordKey";
+
 
     public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle saveInstace){
         View view = inflater.inflate(R.layout.fragment_login,container, false);
@@ -52,8 +60,17 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 username = lUserName.getText().toString();
                 password = lPassword.getText().toString();
-
+/*
+                SharedPreferences.Editor editor;
+                editor = sharedpreferences.edit();
+                editor.putString(sUsername, username);
+                editor.putString(sPassword, password);
+                editor.apply();
+                
+*/
                 userCheck(username);
+
+
 
             }
         });
@@ -95,6 +112,12 @@ public class LoginFragment extends Fragment {
         });
     }
 
+    private void stayLoggedIn(){
+
+
+        lUserName.setText(sharedpreferences.getString(sUsername,""));
+        lPassword.setText(sharedpreferences.getString(sPassword,""));
+    }
 
     private void initialization (View view){
         lLoginButton = view.findViewById(R.id.lLoginButton);
@@ -102,6 +125,7 @@ public class LoginFragment extends Fragment {
 
         lUserName = view.findViewById(R.id.lLoginName);
         lPassword = view.findViewById(R.id.lLoginPassword);
+
 
 
     }

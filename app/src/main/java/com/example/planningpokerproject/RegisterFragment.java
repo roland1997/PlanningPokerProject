@@ -66,9 +66,5 @@ public class RegisterFragment extends Fragment {
         rUserName = view.findViewById(R.id.rRegisterName);
         rPassword = view.findViewById(R.id.rRegisterPassword);
 
-
-
-
-
     }
 }
