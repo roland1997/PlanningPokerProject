@@ -33,7 +33,7 @@ public class LoginFragment extends Fragment {
     private DatabaseReference myRef;
     private String username,password;
 
-    SharedPreferences sharedpreferences;
+
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String sUsername = "userNameKey";
     public static final String sPassword = "paswordKey";
@@ -60,14 +60,7 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 username = lUserName.getText().toString();
                 password = lPassword.getText().toString();
-/*
-                SharedPreferences.Editor editor;
-                editor = sharedpreferences.edit();
-                editor.putString(sUsername, username);
-                editor.putString(sPassword, password);
-                editor.apply();
-                
-*/
+
                 userCheck(username);
 
 
@@ -95,9 +88,10 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getContext(),"Password or Username is incorrect", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Log.d("alma",password);
+                    CreateRoomFragment fragment = CreateRoomFragment.newInstance(username);
+
                     FragmentTransaction fr=getFragmentManager().beginTransaction();
-                    fr.replace(R.id.fragment_container,new CreateRoomFragment());
+                    fr.replace(R.id.fragment_container,fragment);
                     fr.commit();
                 }
 
@@ -110,13 +104,6 @@ public class LoginFragment extends Fragment {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-    }
-
-    private void stayLoggedIn(){
-
-
-        lUserName.setText(sharedpreferences.getString(sUsername,""));
-        lPassword.setText(sharedpreferences.getString(sPassword,""));
     }
 
     private void initialization (View view){
