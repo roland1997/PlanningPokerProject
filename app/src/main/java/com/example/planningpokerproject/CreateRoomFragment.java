@@ -2,13 +2,12 @@ package com.example.planningpokerproject;
 
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -24,7 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import static android.content.Intent.getIntent;
+import java.util.List;
 
 
 /**
@@ -38,12 +38,14 @@ public class CreateRoomFragment extends Fragment {
     private static final String USERNAME= "userName";
     private DatabaseReference myRef;
     private FirebaseDatabase database;
+    private TextView list;
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_room,container, false);
+
 
         initialization(view);
 
@@ -61,10 +63,11 @@ public class CreateRoomFragment extends Fragment {
 
                 checkID();
 
+
             }
         });
 
-
+        List();
         return view;
     }
 
@@ -94,7 +97,7 @@ public class CreateRoomFragment extends Fragment {
 
                 if(dataSnapshot.getValue()!=null){
                     checkMyRooms();
-                    //Toast.makeText(getContext(),"This ID is already used", Toast.LENGTH_SHORT).show();
+
                 }
                 else{
                     createQuestion();
@@ -135,6 +138,7 @@ public class CreateRoomFragment extends Fragment {
         rPassword = view.findViewById(R.id.roomPassword);
         rQuestion = view.findViewById(R.id.roomQuestion);
         rCreate = view.findViewById(R.id.buttonRoomCreate);
+        list = view.findViewById(R.id.room_list);
 
         if (getArguments() != null) {
             username = getArguments().getString(USERNAME);
@@ -148,5 +152,36 @@ public class CreateRoomFragment extends Fragment {
         args.putString(USERNAME, text);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    private void List(){
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("Admins").child(username);
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String code =  dataSnapshot.child("Password").getValue().toString();
+
+                String help = dataSnapshot.getValue().toString().replace("}","");
+                String help1=help.replace("{","");
+                String help2= help1.replace("="," ");
+                String help3= help2.replace(",","\n");
+                String help4= help3.replace("Password","\n");
+                String help5= help4.replace(code,"");
+
+
+
+                list.setText(help5);
+                Log.d("kecske",help5);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

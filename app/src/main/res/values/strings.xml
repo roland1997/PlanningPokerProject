@@ -8,7 +8,8 @@
     <string name="roomID">Room ID</string>
     <string name="roomPassword">Room Password</string>
     <string name="roomQuestion">Room Question</string>
-    <string name="roomCreate">Room Create</string>
+    <string name="roomCreate">Create Room</string>
+    <string name="myrooms">My Rooms</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
