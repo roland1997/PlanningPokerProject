@@ -1,6 +1,6 @@
-package com.example.planningpokerproject;
+package com.example.planningpokerproject.Fragments;
 
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,10 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.planningpokerproject.Objects.User;
+import com.example.planningpokerproject.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 public class LoginFragment extends Fragment {
 
@@ -41,9 +45,19 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login,container, false);
 
         initialization(view);
+        getPrefernces();
+        register();
+        login();
 
 
 
+
+
+
+        return view;
+    }
+
+    private void register(){
         lRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +66,9 @@ public class LoginFragment extends Fragment {
                 fr.commit();
             }
         });
+    }
 
+    private void login(){
         lLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,13 +77,9 @@ public class LoginFragment extends Fragment {
 
                 userCheck(username);
 
-
-
+                saveElement();
             }
         });
-
-
-        return view;
     }
 
     private void userCheck(final String username){
@@ -77,7 +89,7 @@ public class LoginFragment extends Fragment {
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 String kod = dataSnapshot.getValue().toString();
 
@@ -112,6 +124,30 @@ public class LoginFragment extends Fragment {
         lPassword = view.findViewById(R.id.lLoginPassword);
 
 
+
+    }
+
+    private void getPrefernces(){
+        SharedPreferences sp =this.getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+
+        if(sp.contains("userNameKey")){
+            String e = sp.getString("userNameKey","not found");
+            lUserName.setText(e);
+        }
+
+        if(sp.contains("paswordKey")){
+            String e = sp.getString("paswordKey","not found");
+            lPassword.setText(e);
+        }
+    }
+
+    private void saveElement(){
+        SharedPreferences sp =this.getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("userNameKey",username);
+        editor.putString("paswordKey",password);
+        editor.apply();
 
     }
 }

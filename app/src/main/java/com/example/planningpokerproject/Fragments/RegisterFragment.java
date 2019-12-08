@@ -1,7 +1,5 @@
-package com.example.planningpokerproject;
+package com.example.planningpokerproject.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -15,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.planningpokerproject.Fragments.LoginFragment;
+import com.example.planningpokerproject.Objects.User;
+import com.example.planningpokerproject.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -41,7 +42,11 @@ public class RegisterFragment extends Fragment {
                 username = rUserName.getText().toString();
                 password = rPassword.getText().toString();
 
-                registerToDatabase();
+                User user = new User(username,password);
+                user.setUsername(username);
+                user.setPassword(password);
+
+                registerToDatabase(user);
 
                 FragmentTransaction fr=getFragmentManager().beginTransaction();
                 fr.replace(R.id.fragment_container,new LoginFragment());
@@ -54,10 +59,10 @@ public class RegisterFragment extends Fragment {
         return view;
     }
     
-    private void registerToDatabase(){
+    private void registerToDatabase(User user){
         
         myRef = FirebaseDatabase.getInstance().getReference();
-        myRef.child("Admins").child(username).child("Password").setValue(password);
+        myRef.child("Admins").child(user.getUsername()).child("Password").setValue(user.getPassword());
 
     }
 
