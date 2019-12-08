@@ -3,20 +3,18 @@ package com.example.planningpokerproject.Fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.planningpokerproject.Objects.MyAdapter;
 import com.example.planningpokerproject.Objects.Question;
@@ -30,9 +28,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class CreateRoomFragment extends Fragment {
 
     private EditText rID, rPassword, rQuestion;
@@ -49,11 +44,8 @@ public class CreateRoomFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_create_room, container, false);
-
-
         initialization(view);
         create();
-
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         listing = new ArrayList<Question>();
@@ -92,6 +84,8 @@ public class CreateRoomFragment extends Fragment {
 
             }
         });
+
+
         return view;
     }
 
@@ -189,7 +183,7 @@ public class CreateRoomFragment extends Fragment {
         rPassword = view.findViewById(R.id.roomPassword);
         rQuestion = view.findViewById(R.id.roomQuestion);
         rCreate = view.findViewById(R.id.buttonRoomCreate);
-        //list = view.findViewById(R.id.room_list);
+        recyclerView = view.findViewById(R.id.room_list);
 
         if (getArguments() != null) {
             username = getArguments().getString(USERNAME);

@@ -1,6 +1,5 @@
 package com.example.planningpokerproject.Objects;
 
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
